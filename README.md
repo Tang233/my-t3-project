@@ -32,7 +32,7 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## Study Log
 
-#### day 1  
+#### Day 1  
 Set up my own t3 app:
 1. Create a repo named my-t3-project on github
 2. Clone the project in local
@@ -45,5 +45,33 @@ Set up my own t3 app:
      - code . to open vscode
 4. push the code to github
 
+### Day 2
+Setting up github, vercel, and planetscale
+ - go to vercel.com click import project, then choose the project you want to deploy, then copy the database URL line in the .env file and paste it in the space below the Environment variables, then click deploy button.
+![Alt text](markdown_imgs/image.png)
+
+ - create database in planetscale.com, replaced the DATABASE_URL content in .env file
+![Alt text](markdown_imgs/image-1.png)
+![Alt text](markdown_imgs/image-2.png)
+
+ - google search planetscale prisma then go to 
+https://planetscale.com/docs/prisma/prisma-quickstart 
+find the code below and replaced the code in front of the model Example in schema.prisma file:
+```
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+```
+ - because we don't have create anything in our database, so run 
+```
+npx prisma db push
+npx prisma studio
+```
 
 ---  
