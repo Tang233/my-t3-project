@@ -74,4 +74,16 @@ npx prisma db push
 npx prisma studio
 ```
 
+### Day 3
+Add clerk environment settings
+ - go to clerk.com
+ - create a new application
+ - click inside, then follow the docs
+![Alt text](markdown_imgs/clerk.png)
+```
+npm install @clerk/nextjs
+```
+- ![Alt text](markdown_imgs/clerk-api-key.png)
+- ![Alt text](markdown_imgs/clerk-vercel.png)
+
 ---  
