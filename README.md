@@ -85,5 +85,35 @@ npm install @clerk/nextjs
 ```
 - ![Alt text](markdown_imgs/clerk-api-key.png)
 - ![Alt text](markdown_imgs/clerk-vercel.png)
+- add ClerkProvider in src\pages\_app.tsx 
+  https://clerk.com/docs/nextjs/get-started-with-nextjs
+```
+// page/_app.tsx
+import { ClerkProvider } from "@clerk/nextjs";
+import type { AppProps } from "next/app";
+ 
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ClerkProvider {...pageProps}>
+      <Component {...pageProps} />
+    </ClerkProvider>
+  );
+}
+ 
+export default MyApp;
+```
+- Then create middleware.ts file under the src folder, add middleware to protect the application, use it to decide which pages can be public viewed, which can not.
+```
+middleware.ts
+import { authMiddleware } from "@clerk/nextjs";
+
+export default authMiddleware();
+
+export const config = {
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+```
+
+### Day 4
 
 ---  
