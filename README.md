@@ -1,3 +1,4 @@
+[toc]
 # Create T3 App
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
@@ -31,8 +32,7 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 ---  
 
 ## Study Log
-
-#### Day 1  
+### Day 1 Setting up project
 Set up my own t3 app:
 1. Create a repo named my-t3-project on github
 2. Clone the project in local
@@ -45,8 +45,7 @@ Set up my own t3 app:
      - code . to open vscode
 4. push the code to github
 
-### Day 2
-Setting up github, vercel, and planetscale
+### Day 2 Setting up github, vercel, and planetscale
  - go to vercel.com click import project, then choose the project you want to deploy, then copy the database URL line in the .env file and paste it in the space below the Environment variables, then click deploy button.
 ![Alt text](markdown_imgs/image.png)
 
@@ -74,7 +73,7 @@ npx prisma db push
 npx prisma studio
 ```
 
-### Day 3
+### Day 3 ClerkProvider and middleware
 Add clerk environment settings
  - go to clerk.com
  - create a new application
