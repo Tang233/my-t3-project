@@ -1,4 +1,15 @@
-[toc]
+- [Create T3 App](#create-t3-app)
+  - [What's next? How do I make an app with this?](#whats-next-how-do-i-make-an-app-with-this)
+  - [Learn More](#learn-more)
+  - [How do I deploy this?](#how-do-i-deploy-this)
+  - [Study Log](#study-log)
+    - [Day 1 Setting up project](#day-1-setting-up-project)
+    - [Day 2 Setting up github, vercel, and planetscale](#day-2-setting-up-github-vercel-and-planetscale)
+    - [Day 3 ClerkProvider and middleware](#day-3-clerkprovider-and-middleware)
+    - [Day 4 Sign in and Sign out](#day-4-sign-in-and-sign-out)
+
+(ctrl + shift + P, then input Markdown All in One: Create Table of Contents press Enter to create markdown category)
+
 # Create T3 App
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
@@ -28,34 +39,38 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
 
-
----  
+---
 
 ## Study Log
+
 ### Day 1 Setting up project
+
 Set up my own t3 app:
+
 1. Create a repo named my-t3-project on github
 2. Clone the project in local
 3. Open the terminal under the project folder and run the command blow:
-     - npx create-t3-app@latest
-     - give the project a name(my-t3-app)
-     - choose ts, then prisma, tailwind and trpc
-     - choose yes for all the other qustions
-     - cd my-t3-project
-     - code . to open vscode
+   - npx create-t3-app@latest
+   - give the project a name(my-t3-app)
+   - choose ts, then prisma, tailwind and trpc
+   - choose yes for all the other qustions
+   - cd my-t3-project
+   - code . to open vscode
 4. push the code to github
 
 ### Day 2 Setting up github, vercel, and planetscale
- - go to vercel.com click import project, then choose the project you want to deploy, then copy the database URL line in the .env file and paste it in the space below the Environment variables, then click deploy button.
-![Alt text](markdown_imgs/image.png)
 
- - create database in planetscale.com, replaced the DATABASE_URL content in .env file
-![Alt text](markdown_imgs/image-1.png)
-![Alt text](markdown_imgs/image-2.png)
+- go to vercel.com click import project, then choose the project you want to deploy, then copy the database URL line in the .env file and paste it in the space below the Environment variables, then click deploy button.
+  ![Alt text](markdown_imgs/image.png)
 
- - google search planetscale prisma then go to 
-https://planetscale.com/docs/prisma/prisma-quickstart 
-find the code below and replaced the code in front of the model Example in schema.prisma file:
+- create database in planetscale.com, replaced the DATABASE_URL content in .env file
+  ![Alt text](markdown_imgs/image-1.png)
+  ![Alt text](markdown_imgs/image-2.png)
+
+- google search planetscale prisma then go to
+  https://planetscale.com/docs/prisma/prisma-quickstart
+  find the code below and replaced the code in front of the model Example in schema.prisma file:
+
 ```
 datasource db {
   provider = "mysql"
@@ -67,30 +82,37 @@ generator client {
   provider = "prisma-client-js"
 }
 ```
- - because we don't have create anything in our database, so run 
+
+- because we don't have create anything in our database, so run
+
 ```
 npx prisma db push
 npx prisma studio
 ```
 
 ### Day 3 ClerkProvider and middleware
+
 Add clerk environment settings
- - go to clerk.com
- - create a new application
- - click inside, then follow the docs
-![Alt text](markdown_imgs/clerk.png)
+
+- go to clerk.com
+- create a new application
+- click inside, then follow the docs
+  ![Alt text](markdown_imgs/clerk.png)
+
 ```
 npm install @clerk/nextjs
 ```
+
 - ![Alt text](markdown_imgs/clerk-api-key.png)
 - ![Alt text](markdown_imgs/clerk-vercel.png)
-- add ClerkProvider in src\pages\_app.tsx 
+- add ClerkProvider in src\pages_app.tsx
   https://clerk.com/docs/nextjs/get-started-with-nextjs
+
 ```
 // page/_app.tsx
 import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
- 
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ClerkProvider {...pageProps}>
@@ -98,10 +120,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ClerkProvider>
   );
 }
- 
+
 export default MyApp;
 ```
+
 - Then create middleware.ts file under the src folder, add middleware to protect the application, use it to decide which pages can be public viewed, which can not.
+
 ```
 middleware.ts
 import { authMiddleware } from "@clerk/nextjs";
@@ -113,6 +137,40 @@ export const config = {
 };
 ```
 
-### Day 4
+### Day 4 Sign in and Sign out
 
----  
+src\pages\index.tsx
+
+```
+import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { type NextPage } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import { api } from "~/utils/api";
+
+const Home: NextPage = () => {
+  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const user = useUser();
+
+  return (
+    <>
+      <Head>
+        <title>Create T3 App</title>
+        <meta name="description" content="Generated by create-t3-app" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <div>
+        {!user.isSignedIn && <SignInButton/>}
+        {!!user.isSignedIn &&<SignOutButton/>}
+      </div>
+      <SignIn />
+      </main>
+    </>
+  );
+};
+
+export default Home;
+```
+
+---
